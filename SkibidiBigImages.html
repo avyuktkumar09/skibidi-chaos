@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Skibidi Toilet Fart 🚽🕺</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000;
+      font-family: sans-serif;
+      cursor: pointer;
+    }
+    .toilet {
+      position: absolute;
+      animation: dance 0.8s infinite alternate;
+      width: 100px; /* default size */
+      height: auto;
+    }
+    @keyframes dance {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(20deg); }
+      100% { transform: translateY(0) rotate(-20deg); }
+    }
+    #hint {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="hint">Click anywhere to start the Skibidi Toilet chaos!</div>
+  <audio id="skibidiAudio" loop>
+    <source src="skibidi.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Replace these with your image filenames
+    const toiletImages = ["toilet1.png", "toilet2.png", "toilet3.png"];
+    const audio = document.getElementById("skibidiAudio");
+    const hint = document.getElementById("hint");
+
+    function randomSize() {
+      return 80 + Math.random() * 80; // 80px to 160px
+    }
+
+    function spawnSkibidi() {
+      const s = document.createElement("img");
+      s.className = "toilet";
+      s.src = toiletImages[Math.floor(Math.random() * toiletImages.length)];
+      s.style.left = Math.random() * window.innerWidth + "px";
+      s.style.top = Math.random() * window.innerHeight + "px";
+      const size = randomSize();
+      s.style.width = size + "px";
+      document.body.appendChild(s);
+
+      setTimeout(() => s.remove(), 5000);
+    }
+
+    function spawnMultiple() {
+      for (let i = 0; i < 5; i++) {
+        spawnSkibidi();
+      }
+    }
+
+    function startChaos() {
+      hint.style.display = "none";
+      audio.play();
+      setInterval(spawnMultiple, 500);
+
+      document.addEventListener("mousemove", e => {
+        const s = document.createElement("img");
+        s.className = "toilet";
+        s.src = toiletImages[Math.floor(Math.random() * toiletImages.length)];
+        s.style.left = e.clientX + "px";
+        s.style.top = e.clientY + "px";
+        const size = randomSize() / 2; // smaller on mouse
+        s.style.width = size + "px";
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 2000);
+      });
+
+      document.removeEventListener("click", startChaos);
+    }
+
+    document.addEventListener("click", startChaos);
+  </script>
+</body>
+</html>
